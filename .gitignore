@@ -1,0 +1,8 @@
+# OS
+.DS_STORE
+
+# IDE's
+.vscode/*
+!.vscode/extensions.json
+.idea/*
+!.idea/dictionaries
