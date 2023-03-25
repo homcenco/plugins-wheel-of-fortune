@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Wheel of fortune</title>
+
+  <!-- Insert plugin style -->
+  <link rel="stylesheet" href="./src/wheel.plugin.css"/>
+</head>
+<body>
+
+<!-- Insert plugin content -->
+<div id="wheel-plugin" class="wheel-plugin"></div>
+
+<!-- TEST TRASH -->
+<div style="height:1500px"></div>
+<div id="scrollTo">scrollTo content</div>
+
+<!-- Insert plugin script -->
+<script src="./src/wheel.plugin.js"></script>
+<script>
+  // colorStyle: [null|string] purple|pink|blue|green|orange|turquoise|grey|red|lgbtq
+  // winRotationDurationMs: [null|integer] set how long to rotate on spin click
+  // winSectors: [array] set from 6 to 15 win sectors names array to rotate
+  // winSectorNumber: [integer] set sector win number to stop after rotate
+  // winSectorTextReplace: [null|string] set text to replace in stopped sector after rotate
+  // winSectorScrollToId: [null|string] set to scroll to tag with id="name" after rotate
+  // wheelAutoRotate: [bull|boolean] set hover text in mini wheel button
+  // wheelMiniText: [null|string] set hover text in mini wheel button
+  // wheelPluginPosition: [null|boolean] set wheel with sticky position
+  // wheelShowTimeoutMs: [null|integer] set wheel small button onload show effect
+  // wheelMaxHeight: [null|string] set wheel max-height
+  // wheelMaxWidth: [null|string] set wheel max-width
+  const wheel = new WheelPlugin({
+    colorStyle: 'purple',
+    winRotationDurationMs: 10000,
+    winSectors: [
+      '0%', '30%', 'SPIN IT', '10%', '25%',
+      '40%', '0%', '50%', '20%', '0%',
+      '30%', '15%', '40%', '5%', '10%'],
+    winSectorNumber: 8,
+    winSectorTextReplace: '50% WIN',
+    winSectorScrollToId: 'scrollTo',
+    wheelAutoRotate: true,
+    wheelMiniText: 'Click to win a prise!',
+    wheelPluginPosition: true,
+    wheelShowTimeoutMs: 300,
+    wheelMaxHeight: 500,
+    wheelMaxWidth: 500,
+  });
+  wheel.showBigSpinner()
+</script>
+</body>
+</html>

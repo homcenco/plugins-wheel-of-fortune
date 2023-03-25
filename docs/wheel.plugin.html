@@ -1,0 +1,199 @@
+<div class="wheel-plugin-box">
+  <svg style="display: none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <symbol id="wheel-plugin-logo" fill="none" viewBox="-50 -50 100 100">
+        <circle r="49" stroke="#F7DC78" stroke-width="2"></circle>
+        <circle id="wheel-plugin-logo-sectors1" r="45" fill="#F7DC78"></circle>
+        <circle id="wheel-plugin-logo-sectors2" r="25" fill="transparent" stroke-width="40" stroke="#8300c0"
+                stroke-dasharray="13.1 13.1"
+                style="transform: rotate(0deg)"></circle>
+        <circle id="wheel-plugin-logo-bulb" r="10" fill="#8300c0" stroke="#F7DC78" stroke-width="1.2"></circle>
+        <circle r="6" fill="#F7DC78"></circle>
+      </symbol>
+      <symbol id="wheel-plugin-lgbtqLogo" fill="none" viewBox="-50 -50 100 100">
+        <circle r="49" stroke="#F7DC78" stroke-width="2"></circle>
+        <circle r="45" fill="#A010A2"></circle>
+        <circle r="25" fill="transparent" stroke-width="40" stroke="#1963FF" stroke-dasharray="13.1 65.5"
+                style="transform: rotate(45deg)"></circle>
+        <circle r="25" fill="transparent" stroke-width="40" stroke="#00A832" stroke-dasharray="13.1 65.5"
+                style="transform: rotate(15deg)"></circle>
+        <circle r="25" fill="transparent" stroke-width="40" stroke="#FFED00" stroke-dasharray="13.1 65.5"
+                style="transform: rotate(-15deg)"></circle>
+        <circle r="25" fill="transparent" stroke-width="40" stroke="#FF9200" stroke-dasharray="13.1 65.5"
+                style="transform: rotate(-45deg)"></circle>
+        <circle r="25" fill="transparent" stroke-width="40" stroke="#F40B0C" stroke-dasharray="13.1 65.5"
+                style="transform: rotate(-75deg)"></circle>
+        <circle r="10" fill="#A010A2" stroke="#F7DC78" stroke-width="1.2"></circle>
+        <circle r="6" fill="#F7DC78"></circle>
+      </symbol>
+
+      <symbol id="close" viewBox="0 0 100 100">
+        <path fill="currentColor"
+              d="M95.497 82.93l-32.7-32.7 32.7-32.701a8.992 8.992 0 0 0 0-12.745 8.992 8.992 0 0 0-12.744 0l-32.701 32.7-32.701-32.7a8.992 8.992 0 0 0-12.745 0 8.992 8.992 0 0 0 0 12.745l32.7 32.7-32.7 32.702a8.992 8.992 0 0 0 0 12.744 8.992 8.992 0 0 0 12.745 0l32.7-32.7 32.702 32.7a8.992 8.992 0 0 0 12.744 0c3.506-3.53 3.506-9.239 0-12.744z"></path>
+      </symbol>
+    </defs>
+  </svg>
+  <div id="wheel-plugin-buttons" class="wheel-plugin-buttons">
+    <button id="wheel-plugin-button-small" class="small" data-tooltip="Wheel of Fortune">
+      <svg id="small-wheel" width="36" height="36" viewBox="0 0 37 37" xmlns="http://www.w3.org/2000/svg">
+        <use xlink:href="#wheel-plugin-logo" x="0" y="0" width="37" height="37"></use>
+      </svg>
+    </button>
+  </div>
+  <div class="wheel-container">
+    <svg viewBox="-205 -180 385 360" id="wheel" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="bulbGradient" cx="0" cy="31" r="56" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#000"></stop>
+          <stop offset="100%" stop-color="#000"></stop>
+        </radialGradient>
+
+        <linearGradient id="lgbtqGradient" gradientTransform="rotate(90) translate(-0.25, 0) scale(1.2)">
+          <stop stop-color="#FF0000" offset="20%"></stop>
+          <stop stop-color="#FFDF00" offset="40%"></stop>
+          <stop stop-color="#4EE837" offset="60%"></stop>
+          <stop stop-color="#3872F4" offset="80%"></stop>
+          <stop stop-color="#E229FF" offset="100%"></stop>
+        </linearGradient>
+
+        <linearGradient id="goldGradient" gradientTransform="rotate(75)">
+          <stop offset="0%" stop-color="#FEF8E7"></stop>
+          <stop offset="10%" stop-color="#FDF8E9"></stop>
+          <stop offset="60%" stop-color="#E6CA6E"></stop>
+          <stop offset="100%" stop-color="#E2BD58"></stop>
+        </linearGradient>
+
+        <linearGradient id="goldGradient2" gradientTransform="rotate(75)">
+          <stop offset="0%" stop-color="#FDF6B6"></stop>
+          <stop offset="60%" stop-color="#E6CA6E"></stop>
+          <stop offset="100%" stop-color="#E2BD58"></stop>
+        </linearGradient>
+
+        <filter id="shadow" width="150%" height="150%">
+          <feDropShadow dx="2" dy="2.5" stdDeviation="5" flood-color="black" flood-opacity="0.5"></feDropShadow>
+        </filter>
+
+        <filter id="shadow2" width="150%" height="150%">
+          <feDropShadow dx="2" dy="2.5" stdDeviation="3" flood-color="black" flood-opacity="0.5"></feDropShadow>
+        </filter>
+
+        <filter id="light" width="120%" height="120%">
+          <feDropShadow dx="0" dy="0" stdDeviation="1.5" flood-color="#ffffff" flood-opacity="1"></feDropShadow>
+        </filter>
+
+        <filter id="shadow1">
+          <feGaussianBlur in="SourceAlpha" stdDeviation="3"></feGaussianBlur>
+          <!-- stdDeviation is how much to blur -->
+          <feOffset dx="2" dy="2" result="offsetblur"></feOffset>
+          <!-- how much to offset -->
+          <feComponentTransfer>
+            <feFuncA type="linear" slope="0.5"></feFuncA>
+            <!-- slope is the opacity of the shadow -->
+          </feComponentTransfer>
+          <feMerge>
+            <feMergeNode></feMergeNode>
+            <!-- this contains the offset blurred image -->
+            <feMergeNode in="SourceGraphic"></feMergeNode>
+            <!-- this contains the element that the filter is applied to -->
+          </feMerge>
+        </filter>
+        <linearGradient id="textGradient" gradientUnits="objectBoundingBox">
+          <stop stop-color="white" offset="0%"></stop>
+          <stop stop-color="white" offset="55%"></stop>
+          <stop stop-color="black" offset="77%"></stop>
+          <stop stop-color="black" offset="100%"></stop>
+        </linearGradient>
+
+        <linearGradient id="spotlight" x1="-60%" x2="40%" gradientTransform="rotate(-20)">
+          <stop offset="0%" stop-color="#fff" stop-opacity="0"></stop>
+          <stop offset="20%" stop-color="#fff" stop-opacity="0.5"></stop>
+          <stop offset="40%" stop-color="#fff" stop-opacity="0"></stop>
+          <animate attributeName="x1" from="-60%" to="100%" repeatCount="1" begin="indefinite" dur="1s"
+                   fill="freeze"></animate>
+          <animate attributeName="x2" from="40%" to="200%" repeatCount="1" begin="indefinite" dur="1s"
+                   fill="freeze"></animate>
+        </linearGradient>
+
+        <mask id="gradientMask">
+          <path
+            d="M 0 0 L -135.96598839415688 -78.49999999999999 A 157 157 0 0 0 -135.96598839415688 78.49999999999999 Z"
+            fill="url(#textGradient)"></path>
+        </mask>
+      </defs>
+
+      <g class="back">
+        <circle cx="0" cy="0" r="178" fill="#101010" stroke-width="4" stroke="url(#goldGradient2)"></circle>
+      </g>
+
+      <g class="lights">
+        <circle cx="-144.05798382648987" cy="-82.4821028820603" r="4" fill="#ffffff"></circle>
+        <circle cx="-117.75929029235634" cy="-116.99892969527778" r="4" fill="url(#goldGradient)"></circle>
+        <circle cx="-83.41354405381018" cy="-143.52066286212263" r="4" fill="#ffffff"></circle>
+        <circle cx="-43.36775339756742" cy="-160.23494614236864" r="4" fill="url(#goldGradient)"></circle>
+        <circle cx="-0.35843777105876484" cy="-165.99961301871846" r="4" fill="#ffffff"></circle>
+        <circle cx="42.67537161409774" cy="-160.4207363703292" r="4" fill="url(#goldGradient)"></circle>
+        <circle cx="82.7929697711935" cy="-143.87954738761948" r="4" fill="#ffffff"></circle>
+        <circle cx="117.25293030454344" cy="-117.50638423080628" r="4" fill="url(#goldGradient)"></circle>
+        <circle cx="143.70044012113902" cy="-83.10345064430803" r="4" fill="#ffffff"></circle>
+        <circle cx="160.32821501549418" cy="-43.021662798472384" r="4" fill="url(#goldGradient)"></circle>
+        <circle cx="166" cy="-2.0329136865846063e-14" r="4" fill="#ffffff"></circle>
+        <circle cx="160.3282150154942" cy="43.02166279847235" r="4" fill="url(#goldGradient)"></circle>
+        <circle cx="143.700440121139" cy="83.10345064430807" r="4" fill="#ffffff"></circle>
+        <circle cx="117.25293030454343" cy="117.50638423080629" r="4" fill="url(#goldGradient)"></circle>
+        <circle cx="82.79296977119353" cy="143.87954738761948" r="4" fill="#ffffff"></circle>
+        <circle cx="42.67537161409774" cy="160.4207363703292" r="4" fill="url(#goldGradient)"></circle>
+        <circle cx="-0.3584377710588348" cy="165.99961301871846" r="4" fill="#ffffff"></circle>
+        <circle cx="-43.36775339756756" cy="160.2349461423686" r="4" fill="url(#goldGradient)"></circle>
+        <circle cx="-83.41354405381007" cy="143.52066286212272" r="4" fill="#ffffff"></circle>
+        <circle cx="-117.7592902923563" cy="116.99892969527781" r="4" fill="url(#goldGradient)"></circle>
+        <circle cx="-144.0579838264899" cy="82.48210288206027" r="4" fill="#ffffff"></circle>
+      </g>
+
+      <g class="rotating">
+        <g id="wheelSectors" class="sectors" style="display: initial"></g>
+      </g>
+
+      <circle cx="0" cy="0" r="180" fill="#101010" class="darken"></circle>
+
+      <g class="chosen-sector"></g>
+
+      <g class="frame">
+        <path d="M 0 0 L -135.96598839415688 -78.49999999999999 A 157 157 0 0 0 -135.96598839415688 78.49999999999999 Z"
+              fill="transparent" class="lighten"></path>
+        <path d="M 0 0 L -135.96598839415688 -78.49999999999999 A 157 157 0 0 0 -135.96598839415688 78.49999999999999 Z"
+              fill="transparent" class="frame-stroke" stroke="url(#goldGradient2)" stroke-width="5"
+              filter="url(#shadow)"></path>
+        <path d="M 0 0 L -135.96598839415688 -78.49999999999999 A 157 157 0 0 0 -135.96598839415688 78.49999999999999 Z"
+              fill="url(#spotlight)" stroke="url(#spotlight)" class="frame-spotlight" stroke-width="5"></path>
+      </g>
+
+      <g class="arc">
+        <path
+          d="M -167.8189222090862 -65.09077775369316 A 180 180 0 0 0 -167.8189222090862 65.09077775369316 L -159.8811560562974 54.76327179873275 A 169 169 0 0 1 -159.8811560562974 -54.76327179873275 Z"
+          fill="url(#goldGradient)"></path>
+      </g>
+
+      <g class="bulb">
+        <circle class="bulb-top" cx="0" cy="0" r="32" fill="url(#bulbGradient)" stroke-width="4"
+                stroke="url(#goldGradient2)" filter="url(#shadow2)"></circle>
+        <circle cx="0" cy="0" r="20" fill="url(#goldGradient)" filter="url(#shadow)"></circle>
+        <text style="font-size:10px" fill="white" x="-15" y="4">START</text>
+        <circle cx="0" cy="0" r="20" fill="url(#goldGradient)" filter="url(#shadow)"></circle>
+      </g>
+
+      <g class="triangle">
+        <path class="triangle-bottom"
+              d="M -182 -19 A 3 3 0 0 0 -186 -17 V 17 A 3 3 0 0 0 -183 19 L -153 2 A 5 5 0 0 0 -153 -2 Z"
+              stroke="url(#goldGradient)" fill="url(#goldGradient2)" stroke-width="4" filter="url(#shadow2)"></path>
+        <circle cx="-173" cy="0" r="4" fill="#ffffff"></circle>
+      </g>
+    </svg>
+
+    <button class="close">
+      <svg width="15" height="15" viewBox="0 0 100 100">
+        <use xlink:href="#close"></use>
+      </svg>
+    </button>
+    <div id="wheel-from-above-shadow"></div>
+  </div>
+</div>

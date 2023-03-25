@@ -1,0 +1,383 @@
+root {
+  --lighten-color: #fff;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+.wheel-plugin {
+  font-family: 'Helvetica Neue', Helvetica, 'Roboto', 'Arial', sans-serif;
+  position: sticky;
+  top: 50%;
+}
+
+.wheel-plugin * {
+  box-sizing: border-box;
+}
+
+.wheel-plugin button {
+  margin: 0;
+  border: 0;
+  outline: none;
+  cursor: pointer;
+}
+
+.wheel-plugin-buttons {
+  position: absolute;
+  width: 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  opacity: 0;
+  right: 12px;
+  transform: translateX(100px);
+  height: 100%;
+  gap: 10px;
+  transition: background-color 0.15s ease-in-out,
+  opacity 0.2s ease-in-out,
+  transform 0.5s ease-in-out;
+}
+
+.wheel-plugin .small {
+  width: 56px;
+  height: 56px;
+  padding: 10px;
+  border-radius: 6px;
+  background-color: rgba(33, 33, 33, 0.6);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  position: relative;
+}
+
+@media (max-device-width: 479px) and (max-device-aspect-ratio: 1/1),
+(max-device-height: 479px) and (min-device-aspect-ratio: 1/1) {
+  .wheel-plugin .small {
+    display: none;
+  }
+}
+
+.wheel-plugin-buttons.visible {
+  opacity: 1;
+  cursor: pointer;
+}
+
+.wheel-plugin-buttons.active {
+  transform: translateX(0);
+}
+
+.wheel-plugin .small #small-wheel {
+  width: 37px;
+  height: 37px;
+  transition-property: transform;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
+}
+
+.wheel-plugin .small:hover {
+  background-color: rgba(33, 33, 33, 1);
+}
+
+.wheel-plugin .small:hover #small-wheel {
+  transform: rotate(360deg);
+}
+
+.wheel-plugin .small::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  padding: 10px;
+  top: 11px;
+  right: calc(100% + 4px);
+  transform: translateX(0%);
+  color: #ffffff;
+  background-color: #151515;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 400;
+  white-space: nowrap;
+  opacity: 0;
+  transition-property: opacity, transform;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
+}
+
+.wheel-plugin .small::before {
+  content: '';
+  position: absolute;
+  top: 21px;
+  left: -4px;
+  transform: translateX(0);
+  width: 0;
+  height: 0;
+  border-bottom: 7px solid transparent;
+  border-top: 7px solid transparent;
+  border-left: 6px solid #151515;
+  opacity: 0;
+  transition-property: opacity, transform;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
+}
+
+.wheel-plugin-buttons .small::after {
+  color: #101010;
+  background-color: #f8f8f8;
+  font-weight: 500;
+}
+
+.wheel-plugin-buttons .small::before {
+  border-top-color: #f8f8f8;
+}
+
+.wheel-plugin .small:hover::before, .small:hover::after {
+  opacity: 1;
+  transform: translateX(-5px);
+}
+
+.wheel-plugin .close {
+  position: absolute;
+  top: 50%;
+  left: -30px;
+  transform: translateY(-50%);
+  padding: 5px;
+  border-radius: 5px;
+  width: 25px;
+  height: 25px;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.15s ease-in-out;
+  transition-property: opacity, background-color;
+  color: rgba(255, 255, 255, 1);
+  background-color: rgba(21, 21, 21, 0.3);
+}
+
+.wheel-plugin .wheel-container.visible .close {
+  opacity: 1;
+  pointer-events: initial;
+}
+
+@media (hover: hover) {
+  .wheel-plugin .wheel-container.visible .close {
+    opacity: 0;
+    background-color: transparent;
+  }
+
+  body:hover .wheel-plugin .wheel-container.visible .close {
+    opacity: 1;
+    background-color: rgba(21, 21, 21, 0.2);
+  }
+
+  body:hover .wheel-plugin .wheel-container.visible .close:hover {
+    background-color: rgba(21, 21, 21, 0.7);
+  }
+}
+
+.wheel-plugin .wheel-container.active .close {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.wheel-plugin .wheel-container {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  height: 100vh;
+  width: calc(100vh * 385 / 360);
+  transition-property: transform;
+  transition-duration: 0.3s;
+  transition-timing-function: ease-in-out;
+
+  transform: scale(0.8) translate(calc((-50% - (25 / 2 / 385) * 100% + 100%) / 0.8), calc(-50% / 0.8));
+
+  max-width: calc(200vw - (40px * 2));
+  left: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wheel-plugin #wheel {
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+}
+
+.wheel-plugin .wheel-container.visible {
+  transform: scale(0.8) translate(calc((-50% - (25 / 2 / 385) * 100% + 3%) / 0.8), calc(-50% / 0.8));
+}
+
+.wheel-plugin .wheel-container.visible #wheel {
+  cursor: pointer;
+  pointer-events: initial;
+}
+
+.wheel-plugin .wheel-container.active {
+  transform: scale(1) translate(calc(-50% - (25 / 2 / 385) * 100% - -1.3%), -50%);
+}
+
+.wheel-plugin .wheel-container.active #wheel {
+  pointer-events: none;
+}
+
+.wheel-plugin #wheel .darken {
+  transition: opacity 0.3s ease-in-out;
+  opacity: 0.01;
+}
+
+.wheel-plugin #wheel .darken.active {
+  opacity: 0.5;
+}
+
+.wheel-plugin #wheel .frame .lighten,
+.wheel-plugin #wheel .frame .frame-stroke,
+.wheel-plugin #wheel .frame .frame-spotlight,
+.wheel-plugin #wheel .chosen-sector {
+  transition-property: transform;
+  transition-duration: 1s;
+  transition-timing-function: ease-in-out;
+  transform: scale(1) translateX(0);
+}
+
+.wheel-plugin #wheel .frame .frame-spotlight {
+  transition-property: transform, opacity;
+  opacity: 0;
+}
+
+.wheel-plugin #wheel .frame .lighten {
+  fill: transparent;
+  transition-property: transform, fill;
+}
+
+.wheel-plugin #wheel .frame.enlarged .lighten,
+.wheel-plugin #wheel .frame.enlarged .frame-stroke,
+.wheel-plugin #wheel .frame.enlarged .frame-spotlight,
+.wheel-plugin #wheel .chosen-sector.enlarged {
+  transform: scale(1.25) translateX(3px);
+}
+
+.wheel-plugin #wheel .frame.enlarged .frame-spotlight {
+  opacity: 1;
+}
+
+@supports (mix-blend-mode: color-dodge) {
+  .wheel-plugin #wheel .frame.enlarged .lighten {
+    fill: var(--lighten-color);
+  }
+}
+
+.wheel-plugin #wheel .chosen-sector {
+  opacity: 0;
+}
+
+.wheel-plugin #wheel .chosen-sector.active {
+  opacity: 1;
+}
+
+.wheel-plugin #wheel .triangle {
+  transition: opacity 0.5s ease-in-out;
+}
+
+.wheel-plugin #wheel .triangle.hidden {
+  opacity: 0;
+}
+
+.wheel-plugin #wheel .arc {
+  transition: opacity 0.5s ease-in-out;
+}
+
+.wheel-plugin #wheel .arc.hidden {
+  opacity: 0;
+}
+
+.wheel-plugin .sector-text {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+@supports (mix-blend-mode: color-dodge) {
+  .wheel-plugin .lighten {
+    mix-blend-mode: color-dodge;
+  }
+
+  .wheel-plugin .wheel-container.lgbtq .lighten {
+    opacity: 0.5;
+  }
+}
+
+.wheel-plugin #wheel-from-above-shadow {
+  background: radial-gradient(ellipse at 100%, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0) 50%);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 40px;
+  pointer-events: none;
+}
+
+.wheel-plugin #wheel-from-above-shadow.active {
+  opacity: 1;
+}
+
+.wheel-plugin.--not-positioned {
+  position: inherit;
+}
+
+.wheel-plugin.--not-positioned .wheel-plugin-buttons,
+.wheel-plugin.--not-positioned #wheel-from-above-shadow {
+  display: none;
+}
+
+.wheel-plugin.--not-positioned .wheel-container:not(.active) .bulb circle:last-child {
+  fill: #fff;
+  animation: sonar 2s linear infinite;
+}
+
+.wheel-plugin.--not-positioned .wheel-container:not(.active) .lights circle:nth-child(2n+1) {
+  animation: lightsToGold 1s linear infinite;
+}
+
+.wheel-plugin.--not-positioned .wheel-container:not(.active) .lights circle:nth-child(2n) {
+  animation: lightsFromGold 1s linear infinite;
+}
+
+.wheel-plugin.--not-positioned .wheel-container:hover:not(.active) .bulb circle:last-child {
+  animation: sonar 1s linear infinite;
+}
+
+.wheel-plugin.--not-positioned .wheel-container {
+  position: inherit;
+  transform: inherit;
+  transition: inherit;
+  height: inherit;
+  max-width: inherit;
+  width: inherit;
+}
+
+@keyframes sonar {
+  from {
+    opacity: 1;
+  }
+  to {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+
+@keyframes lightsToGold {
+  from {
+    fill: #ffffff;
+  }
+  to {
+    fill: #E2BD58;
+  }
+}
+
+@keyframes lightsFromGold {
+  from {
+    fill: #E2BD58;
+  }
+  to {
+    fill: #ffffff;
+  }
+}
