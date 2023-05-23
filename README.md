@@ -12,11 +12,13 @@ A `Wheel Of Fortune` spinner plugin for users traffic arbitrage. Beautiful, inte
 <!-- Insert plugin style -->
 <link rel="stylesheet" href="./src/wheel.plugin.css"/>
 
+<!-- Insert plugin script -->
+<script src="./src/wheel.plugin.js"></script>
+
 <!-- Insert plugin container -->
 <div id="wheel-plugin" class="wheel-plugin"></div>
 
-<!-- Insert plugin script -->
-<script src="./src/wheel.plugin.js"></script>
+<!-- Insert plugin initialization -->
 <script>
   const wheel = new WheelPlugin();
   wheel.showBigSpinner()
@@ -59,7 +61,7 @@ const wheel = new WheelPlugin({
 wheel.showBigSpinner()
 ```
 
-– Initialize after win script
+– Initialize your after win function
 
 ```js
 const wheel = new WheelPlugin({
