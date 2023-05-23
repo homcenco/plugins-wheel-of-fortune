@@ -1,25 +1,28 @@
 function WheelPlugin(options) {
   //let _this = this;
 
-
   // --------------------------------
   // --- DEFAULT OPTIONS FALLBACK ---
   // --------------------------------
 
   let defaultOptions = {
     colorStyle: 'purple',
-    winRotationDurationMs: 10000,
-    winSectors: ['50%', '30%', '40%', '10%', '20%', '45%'],
-    winSectorNumber: 1,
+    winRotationDurationMs: 8000,
+    winEnlargeDurationMs: 1000,
+    winSectors: ['0%', '30%', 'SPIN IT', '10%', '25%', '40%', '0%', '50%'],
+    winSectorNumber: 8,
     winSectorTextReplace: '50% WIN',
-    winSectorScrollToId: 'scrollTo',
-    wheelAutoRotate: true,
+    wheelAutoRotate: false,
+    wheelCenterText: 'SPIN',
     wheelMiniText: 'Click to win',
-    wheelPluginPosition: true,
-    wheelShowTimeoutMs: 300,
-    wheelMaxHeight: null,
-    wheelMaxWidth: null,
+    wheelPluginPosition: false,
+    wheelShowTimeoutMs: null,
+    wheelMaxHeight: 500,
+    wheelMaxWidth: 500,
+    initAfterWin: () => {
+    },
   }
+
   options = {...defaultOptions, ...options};
 
 
@@ -37,16 +40,20 @@ function WheelPlugin(options) {
     defaultOptions.winSectors : options.winSectors
   // stop winner at sector number
   const winSectorNumber = options.winSectorNumber - 1
+  // after win init function
+  const initAfterWin = options.initAfterWin
   // show small wheel button in Ms
   const wheelShowTimeoutMs = options.wheelShowTimeoutMs
   // spin action waiting time in Ms
   const winRotationDurationMs = options.winRotationDurationMs
+  // spin action waiting time in Ms
+  const winEnlargeDurationMs = options.winEnlargeDurationMs
   // show winner a text in sector
   const winSectorTextReplace = options.winSectorTextReplace
-  // scroll to an id after win
-  const winSectorScrollToId = options.winSectorScrollToId
   // set wheelAutoRotate
   const wheelAutoRotate = options.wheelAutoRotate
+  // set wheelCenterText
+  const wheelCenterText = options.wheelCenterText
   // set wheelMiniText
   const wheelMiniText = options.wheelMiniText
   // set wheel position sticky right
@@ -378,7 +385,7 @@ function WheelPlugin(options) {
     '        <circle class="bulb-top" cx="0" cy="0" r="32" fill="url(#bulbGradient)" stroke-width="4"\n' +
     '                stroke="url(#goldGradient2)" filter="url(#shadow2)"></circle>\n' +
     '        <circle cx="0" cy="0" r="20" fill="url(#goldGradient)" filter="url(#shadow)"></circle>\n' +
-    '        <text style="font-size:10px" fill="white" x="-15" y="4">START</text>\n' +
+    '        <text style="font-size:10px" fill="black" x="-11" y="4">' + wheelCenterText + '</text>\n' +
     '        <circle cx="0" cy="0" r="20" fill="url(#goldGradient)" filter="url(#shadow)"></circle>\n' +
     '      </g>\n' +
     '\n' +
@@ -638,17 +645,6 @@ function WheelPlugin(options) {
     return (2 * Math.PI) / count;
   }
 
-  // function getEaseInOutCubic(t) {
-  //   return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
-  // }
-
-  // function getDegFromMatrix(transformMatrix) {
-  //   const values = transformMatrix.split('(')[1].split(')')[0].split(',');
-  //   const a = values[0];
-  //   const b = values[1];
-  //   return Math.round(Math.atan2(b, a) * (180 / Math.PI));
-  // }
-
   function getArcEnter(r, slice) {
     return -getX(r, slice / 2) + ' ' + -getY(r, slice / 2);
   }
@@ -661,25 +657,6 @@ function WheelPlugin(options) {
     return (-timeSinceStart * 8) / 1000;
   }
 
-  function getPositionObject(obj) {
-    let currenttop = 0;
-    if (obj.offsetParent) {
-      do {
-        currenttop += obj.offsetTop;
-      } while ((obj = obj.offsetParent));
-      return [currenttop];
-    }
-    return currenttop;
-  }
-
-  function getPositionObjectSmooth(obj) {
-    let i = 10;
-    let int = setInterval(function () {
-      window.scrollTo(0, i);
-      i += 10;
-      if (i >= getPositionObject(obj)) clearInterval(int);
-    }, 10);
-  }
 
   function getSector(arcEnter, arcExit, color, rotate, text, textColor) {
     return '<g '
@@ -974,8 +951,6 @@ function WheelPlugin(options) {
   function spinWithAnimation() {
     stopSlowlyRotating();
 
-    let clicked = false
-
     const initialAngleDeg = currentWheelAngleDeg;
     const allSectorsDeg = (winSectorsCount * 360) / winSectorsCount;
     const deltaToAllSectorsDeg = initialAngleDeg % allSectorsDeg;
@@ -1033,12 +1008,6 @@ function WheelPlugin(options) {
       rotateWheel(initialAngleDeg, newDeltaAngleDeg, shouldEndRotate, winSectors);
 
       setTimeout(function () {
-        wheelContainer.addEventListener('click', function () {
-          clicked = true
-          window.location.hash = winSectorScrollToId
-          getPositionObjectSmooth(document.getElementById(winSectorScrollToId))
-        });
-
         requestAnimationFrame(function () {
           triangle.classList.add('hidden');
           frameEl.classList.add('enlarged');
@@ -1055,13 +1024,6 @@ function WheelPlugin(options) {
         });
 
         setTimeout(function () {
-          if (!clicked) {
-            window.location.hash = winSectorScrollToId
-            getPositionObjectSmooth(document.getElementById(winSectorScrollToId))
-          }
-        }, 10000)
-
-        setTimeout(function () {
           chosenSectorEl.classList.remove('enlarged');
           frameEl.classList.remove('enlarged');
           triangle.classList.remove('hidden');
@@ -1070,7 +1032,9 @@ function WheelPlugin(options) {
           wheelPluginPosition ? buttonsContainer.classList.add('visible') : true
           wheelPluginPosition ? wheelContainer.classList.remove('active') : true
           wheelPluginPosition ? wheelContainer.classList.remove('visible') : true
-        }, 5000)
+
+          initAfterWin()
+        }, winEnlargeDurationMs)
 
       }, winRotationDurationMs);
     }, 300);
