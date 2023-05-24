@@ -82,6 +82,21 @@ const wheel = new WheelPlugin({
 wheel.showBigSpinner()
 ```
 
+– Localize wheel (arabic)
+
+```js
+const wheel = new WheelPlugin({
+  wheelCenterText: 'تدور',
+  wheelCenterTextLeftPosition: -9,
+  wheelCenterTextStyle: 'font-size:12px',
+
+  wheelSectors: ['30٪', '0٪', 'تدور', '50٪', '5٪', '10٪', '33٪', '20٪', '40٪', '0٪', '33٪', '20٪', '50٪', '10٪', '0٪'],
+
+  winSectorTextReplace: 'اربح ٪50',
+});
+wheel.showBigSpinner()
+```
+
 ## Options:
 
 - `colorStyle`: [`null`,`string`] – set wheel color: purple, pink, blue, green, orange, turquoise, grey, red, lgbtq
