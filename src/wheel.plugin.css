@@ -1,3 +1,9 @@
+/**
+ * @author Vasili Homcenco <homcenco@gmail.com>
+ * @github https://github.com/homcenco/plugins-wheel-of-fortune
+ * @example https://homcenco.github.io/plugins-wheel-of-fortune/
+ */
+
 root {
   --lighten-color: #fff;
 }
@@ -8,8 +14,11 @@ body {
 
 .wheel-plugin {
   font-family: 'Helvetica Neue', Helvetica, 'Roboto', 'Arial', sans-serif;
-  /*position: sticky;
-  top: 50%;*/
+}
+
+.wheel-plugin.sticky {
+  position: sticky;
+  top: 50%;
 }
 
 .wheel-plugin * {

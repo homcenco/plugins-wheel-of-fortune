@@ -1,3 +1,9 @@
+/**
+ * @author Vasili Homcenco <homcenco@gmail.com>
+ * @github https://github.com/homcenco/plugins-wheel-of-fortune
+ * @example https://homcenco.github.io/plugins-wheel-of-fortune/
+ */
+
 function WheelPlugin(options) {
   //let _this = this;
 
@@ -7,20 +13,25 @@ function WheelPlugin(options) {
 
   let defaultOptions = {
     colorStyle: 'purple',
-    winRotationDurationMs: 8000,
-    winEnlargeDurationMs: 1000,
-    winSectors: ['0%', '30%', 'SPIN IT', '10%', '25%', '40%', '0%', '50%'],
-    winSectorNumber: 8,
-    winSectorTextReplace: '50% WIN',
     wheelAutoRotate: false,
     wheelCenterText: 'SPIN',
+    wheelCenterTextFillColor: 'black',
+    wheelCenterTextLeftPosition: -11,
+    wheelCenterTextStyle: 'font-size:10px',
     wheelMiniText: 'Click to win',
     wheelPluginPosition: false,
-    wheelShowTimeoutMs: null,
+    wheelSectors: ['30%', '0%', 'SPIN IT', '50%', '5%', '10%', '33%', '20%', '40%', '0%', '33%', '20%', '50%', '10%', '0%'],
+    wheelSpinDurationMs: 7000,
+    wheelShowPauseMs: null,
     wheelMaxHeight: 500,
     wheelMaxWidth: 500,
+    winEnlargePauseMs: null,
+    winEnlargedMinifyPauseMs: 1500,
+    winSectorNumber: 4,
+    winSectorTextReplace: '50% WIN',
     initAfterWin: () => {
     },
+    initAfterWinPauseMs: 2500,
   }
 
   options = {...defaultOptions, ...options};
@@ -30,38 +41,52 @@ function WheelPlugin(options) {
   // --- DEFAULT OPTIONS SETUP ---
   // -----------------------------
 
-  // purple|pink|blue|green|orange|turquoise|grey|red|lgbtq
-  const colorStyleArray = ['purple', 'pink', 'blue', 'green', 'orange', 'turquoise', 'grey', 'red', 'lgbtq']
+  // set wheel color: purple, pink, blue, green, orange, turquoise, grey, red, lgbtq
+  const colorStyleArray = [
+    'purple', 'pink', 'blue', 'green', 'orange', 'turquoise', 'grey', 'red', 'lgbtq'
+  ]
   const colorStyle = colorStyleArray.includes(options.colorStyle) ?
     options.colorStyle : defaultOptions.colorStyle
-  // show win sectors from 6 to 10 sectors maximum
-  const winSectorsCount = options.winSectors.length
-  const winSectors = winSectorsCount < 6 && winSectorsCount > 10 ?
-    defaultOptions.winSectors : options.winSectors
-  // stop winner at sector number
-  const winSectorNumber = options.winSectorNumber - 1
-  // after win init function
-  const initAfterWin = options.initAfterWin
-  // show small wheel button in Ms
-  const wheelShowTimeoutMs = options.wheelShowTimeoutMs
-  // spin action waiting time in Ms
-  const winRotationDurationMs = options.winRotationDurationMs
-  // spin action waiting time in Ms
-  const winEnlargeDurationMs = options.winEnlargeDurationMs
-  // show winner a text in sector
-  const winSectorTextReplace = options.winSectorTextReplace
-  // set wheelAutoRotate
+  // set wheel auto rotate on load
   const wheelAutoRotate = options.wheelAutoRotate
-  // set wheelCenterText
+  // set wheel center button text
   const wheelCenterText = options.wheelCenterText
-  // set wheelMiniText
+  // set wheel center button text fill color
+  const wheelCenterTextFillColor = options.wheelCenterTextFillColor
+  // set wheel center button text position number from left
+  const wheelCenterTextLeftPosition = options.wheelCenterTextLeftPosition
+  // set wheel center button text style value
+  const wheelCenterTextStyle = options.wheelCenterTextStyle
+  // set wheel small button hover text
   const wheelMiniText = options.wheelMiniText
-  // set wheel position sticky right
+  // set wheel with absolute/right/centered position
   const wheelPluginPosition = options.wheelPluginPosition
-  // set plugin wheelMaxHeight
+  // set wheel sectors array from 6 to 15
+  const wheelSectorsCount = options.wheelSectors.length
+  const wheelSectors = wheelSectorsCount < 6 && wheelSectorsCount > 15 ?
+    defaultOptions.wheelSectors : options.wheelSectors
+  //  set wheel spin duration time in milliseconds
+  const wheelSpinDurationMs = options.wheelSpinDurationMs
+  // set wheel small button show after pause in milliseconds
+  const wheelShowPauseMs = options.wheelShowPauseMs
+  // set wheel max height number
   const wheelMaxHeight = options.wheelMaxHeight
-  // set plugin wheelMaxWidth
+  // set wheel max width number
   const wheelMaxWidth = options.wheelMaxWidth
+  // set wheel win sector enlarge duration time in milliseconds
+  const winEnlargePauseMs = options.winEnlargePauseMs
+
+  // set wheel sector enlarged minify duration time in milliseconds
+  const winEnlargedMinifyPauseMs = options.winEnlargedMinifyPauseMs
+  // set win sector number to show
+  const winSectorNumber = options.winSectorNumber - 1
+  // set win sector text replace
+  const winSectorTextReplace = options.winSectorTextReplace
+
+  // set your after win function
+  const initAfterWin = options.initAfterWin
+  // set your after win function show after pause in milliseconds
+  const initAfterWinPauseMs = options.initAfterWinPauseMs
 
 
   // --------------------------
@@ -385,7 +410,7 @@ function WheelPlugin(options) {
     '        <circle class="bulb-top" cx="0" cy="0" r="32" fill="url(#bulbGradient)" stroke-width="4"\n' +
     '                stroke="url(#goldGradient2)" filter="url(#shadow2)"></circle>\n' +
     '        <circle cx="0" cy="0" r="20" fill="url(#goldGradient)" filter="url(#shadow)"></circle>\n' +
-    '        <text style="font-size:10px" fill="black" x="-11" y="4">' + wheelCenterText + '</text>\n' +
+    '        <text style="' + wheelCenterTextStyle + '" fill="' + wheelCenterTextFillColor + '" x="' + wheelCenterTextLeftPosition + '" y="4">' + wheelCenterText + '</text>\n' +
     '        <circle cx="0" cy="0" r="20" fill="url(#goldGradient)" filter="url(#shadow)"></circle>\n' +
     '      </g>\n' +
     '\n' +
@@ -423,7 +448,7 @@ function WheelPlugin(options) {
   const wheelFromAboveShadowEl = wheelPlugin.querySelector('#wheel-from-above-shadow');
 
   const wheelContainer = wheelPlugin.querySelector('.wheel-container');
-  const wheelSectors = wheelContainer.querySelector('#wheelSectors');
+  const wheelSectorsContainer = wheelContainer.querySelector('#wheelSectors');
   const arcEl = wheelContainer.querySelector('.arc');
   const lightsContainer = wheelContainer.querySelector('.lights');
   const darkenEl = wheelContainer.querySelector('.darken');
@@ -453,7 +478,7 @@ function WheelPlugin(options) {
   const frameSlugWidth = 11;
   const fullR = 180;
   const r = 157
-  const sliceDeg = 360 / winSectorsCount;
+  const sliceDeg = 360 / wheelSectorsCount;
 
   // Colors red
   const redColor1 = '#bf0000';
@@ -831,7 +856,7 @@ function WheelPlugin(options) {
   function updateTexts(step, sectors, indexShift) {
     let count = 0;
 
-    const sectorsCount = sectors.winSectors.length;
+    const sectorsCount = sectors.wheelSectors.length;
 
     while (count < sectorsCount) {
       const sectorTextIndex = (count + indexShift) % sectorsCount;
@@ -911,7 +936,7 @@ function WheelPlugin(options) {
       currentWheelAngleDeg,
       getSlowlyRotateNewAngleDeg,
       shouldEndSlowRotation,
-      winSectors
+      wheelSectors
     );
   }
 
@@ -952,13 +977,13 @@ function WheelPlugin(options) {
     stopSlowlyRotating();
 
     const initialAngleDeg = currentWheelAngleDeg;
-    const allSectorsDeg = (winSectorsCount * 360) / winSectorsCount;
+    const allSectorsDeg = (wheelSectorsCount * 360) / wheelSectorsCount;
     const deltaToAllSectorsDeg = initialAngleDeg % allSectorsDeg;
     const firstSectorInBottomShiftDeg = -sliceDeg * 2;
     const fullAllSectorsRotations = allSectorsDeg * 6;
     const chosenSectorShift = -(
-      Math.floor(winSectorNumber / winSectorsCount) * 360 +
-      ((winSectorNumber % winSectorsCount) * 360) / winSectorsCount
+      Math.floor(winSectorNumber / wheelSectorsCount) * 360 +
+      ((winSectorNumber % wheelSectorsCount) * 360) / wheelSectorsCount
     );
     const resultAngleDeg =
       initialAngleDeg -
@@ -968,11 +993,11 @@ function WheelPlugin(options) {
       chosenSectorShift;
     const deltaAngleDeg = resultAngleDeg - initialAngleDeg;
 
-    const slice = getSlice(winSectorsCount);
+    const slice = getSlice(wheelSectorsCount);
     const arcEnter = getArcEnter(r, slice);
     const arcExit = getArcExit(r, slice);
-    const color = getColor(colorStyle, winSectorsCount, winSectorNumber);
-    const text = winSectors[winSectorNumber];
+    const color = getColor(colorStyle, wheelSectorsCount, winSectorNumber);
+    const text = wheelSectors[winSectorNumber];
     const sector = getSector(
       arcEnter,
       arcExit,
@@ -993,50 +1018,53 @@ function WheelPlugin(options) {
 
     setTimeout(function () {
       function shouldEndRotate(timeSinceStart) {
-        if (timeSinceStart > winRotationDurationMs) {
+        if (timeSinceStart > wheelSpinDurationMs) {
           updateWheelRotationDeg(resultAngleDeg);
-          updateTextsByAngleDeg(resultAngleDeg, winSectors);
+          updateTextsByAngleDeg(resultAngleDeg, wheelSectors);
           return true;
         }
       }
 
       function newDeltaAngleDeg(timeSinceStart) {
-        const x = timeSinceStart / winRotationDurationMs;
+        const x = timeSinceStart / wheelSpinDurationMs;
         return deltaAngleDeg * b(x);
       }
 
-      rotateWheel(initialAngleDeg, newDeltaAngleDeg, shouldEndRotate, winSectors);
+      rotateWheel(initialAngleDeg, newDeltaAngleDeg, shouldEndRotate, wheelSectors);
 
       setTimeout(function () {
-        requestAnimationFrame(function () {
-          triangle.classList.add('hidden');
-          frameEl.classList.add('enlarged');
-          arcEl.classList.add('hidden');
-          chosenSectorEl.classList.add('enlarged');
-          chosenSectorEl.classList.add('active');
-          darkenEl.classList.add('active');
+        setTimeout(function () {
+          requestAnimationFrame(function () {
+            triangle.classList.add('hidden');
+            frameEl.classList.add('enlarged');
+            arcEl.classList.add('hidden');
+            chosenSectorEl.classList.add('enlarged');
+            chosenSectorEl.classList.add('active');
+            darkenEl.classList.add('active');
 
-          spotlight.forEach(function (el) {
-            if ('beginElementAt' in el) {
-              el.beginElementAt(1);
-            }
+            spotlight.forEach(function (el) {
+              if ('beginElementAt' in el) {
+                el.beginElementAt(1);
+              }
+            });
           });
-        });
+
+          setTimeout(function () {
+            chosenSectorEl.classList.remove('enlarged');
+            frameEl.classList.remove('enlarged');
+            triangle.classList.remove('hidden');
+            arcEl.classList.remove('hidden');
+            wheelPluginPosition ? buttonsContainer.classList.add('active') : true
+            wheelPluginPosition ? buttonsContainer.classList.add('visible') : true
+            wheelPluginPosition ? wheelContainer.classList.remove('active') : true
+            wheelPluginPosition ? wheelContainer.classList.remove('visible') : true
+          }, winEnlargedMinifyPauseMs)
+        }, winEnlargePauseMs)
 
         setTimeout(function () {
-          chosenSectorEl.classList.remove('enlarged');
-          frameEl.classList.remove('enlarged');
-          triangle.classList.remove('hidden');
-          arcEl.classList.remove('hidden');
-          wheelPluginPosition ? buttonsContainer.classList.add('active') : true
-          wheelPluginPosition ? buttonsContainer.classList.add('visible') : true
-          wheelPluginPosition ? wheelContainer.classList.remove('active') : true
-          wheelPluginPosition ? wheelContainer.classList.remove('visible') : true
-
           initAfterWin()
-        }, winEnlargeDurationMs)
-
-      }, winRotationDurationMs);
+        }, initAfterWinPauseMs);
+      }, wheelSpinDurationMs);
     }, 300);
   }
 
@@ -1087,7 +1115,7 @@ function WheelPlugin(options) {
   }
 
   function initFrame(colorStyle) {
-    const slice = getSlice(winSectorsCount);
+    const slice = getSlice(wheelSectorsCount);
     const arcEnter = getArcEnter(r, slice);
     const arcExit = getArcExit(r, slice);
     const color = getFrameColor(colorStyle)
@@ -1127,7 +1155,7 @@ function WheelPlugin(options) {
   function initWheel() {
     let content = ''
 
-    const count = winSectorsCount;
+    const count = wheelSectorsCount;
     const slice = getSlice(count);
     const arcEnter = getArcEnter(r, slice);
     const arcExit = getArcExit(r, slice);
@@ -1152,7 +1180,7 @@ function WheelPlugin(options) {
       // for fewer sectors we don't do virtual rendering, so it doesn't matter
       const rotate = slice * (i - 2);
       const color = getColor(colorStyle, count, i);
-      const text = winSectors[i];
+      const text = wheelSectors[i];
 
       content = content.concat(
         getSector(
@@ -1165,7 +1193,7 @@ function WheelPlugin(options) {
         )
       );
     }
-    wheelSectors.innerHTML = content;
+    wheelSectorsContainer.innerHTML = content;
 
     defsEl.innerHTML = ''
       .concat(defsEl.innerHTML)
@@ -1192,12 +1220,12 @@ function WheelPlugin(options) {
       this.showBigSpinner()
       return
     }
-    if (wheelShowTimeoutMs) {
+    if (wheelShowPauseMs) {
       setTimeout(function () {
         buttonsContainer.classList.add('visible')
         buttonsContainer.classList.add('active')
         wheelContainer.classList.remove('visible')
-      }, wheelShowTimeoutMs)
+      }, wheelShowPauseMs)
     } else {
       buttonsContainer.classList.add('visible')
       buttonsContainer.classList.add('active')
@@ -1207,13 +1235,13 @@ function WheelPlugin(options) {
 
   this.showBigSpinner = function () {
     updateWheelRotationDeg(0)
-    if (wheelShowTimeoutMs) {
+    if (wheelShowPauseMs) {
       setTimeout(function () {
         buttonsContainer.classList.remove('visible')
         buttonsContainer.classList.remove('active')
         wheelContainer.classList.add('visible')
         changeWheelToRule()
-      }, wheelShowTimeoutMs)
+      }, wheelShowPauseMs)
     } else {
       buttonsContainer.classList.remove('visible')
       buttonsContainer.classList.remove('active')

@@ -77,41 +77,55 @@ wheel.showBigSpinner()
 ```js
 const wheel = new WheelPlugin({
   colorStyle: 'pink',
-  winRotationDurationMs: 1000,
+  wheelSpinDurationMs: 1000,
 });
 wheel.showBigSpinner()
 ```
 
 ## Options:
 
-- `colorStyle`: [`null`|`string`] purple|pink|blue|green|orange|turquoise|grey|red|lgbtq
-- `winRotationDurationMs`: [`null`|`integer`] set how long to rotate on spin click
-- `winEnlargeDurationMs`: [`null`|`integer`] set how long to enlarge win sector after win
-- `winSectors`: [`array`] set from 6 to 15 win sectors names array to rotate
-- `winSectorNumber`: [`integer`] set sector win number to stop after rotate
-- `winSectorTextReplace`: [`null`|`string`] set text to replace in stopped sector after rotate
-- `wheelAutoRotate`: [`bull`|`boolean`] set hover text in mini wheel button
-- `wheelCenterText`: [`null`|`string`] set rotate text in wheel center button
-- `wheelMiniText`: [`null`|`string`] set hover text in mini wheel button
-- `wheelPluginPosition`: [`null`|`boolean`] set wheel with sticky position
-- `wheelShowTimeoutMs`: [`null`|`integer`] set wheel small button onload show effect
-- `wheelMaxHeight`: [`null`|`string`] set wheel max-height
-- `wheelMaxWidth`: [`null`|`string`] set wheel max-width
-- `initAfterWin`: [`function`] set your function after win
+- `colorStyle`: [`null`,`string`] – set wheel color: purple, pink, blue, green, orange, turquoise, grey, red, lgbtq
+- `wheelAutoRotate`: [`bull`,`boolean`] – set wheel auto rotate on load
+- `wheelCenterText`: [`null`,`string`] – set wheel center button text
+- `wheelCenterTextFillColor` [`null`,`string`] – set wheel center button text fill color
+- `wheelCenterTextLeftPosition` [`null`,`integer`] – set wheel center button text position number from left
+- `wheelCenterTextStyle` [`null`,`string`] – set wheel center button text style value
+- `wheelMiniText`: [`null`,`string`] – set wheel small button hover text
+- `wheelPluginPosition`: [`null`,`boolean`] – set wheel with absolute/right/centered position
+- `wheelSectors`: [`array`] – set wheel sectors array from 6 to 15
+- `wheelSpinDurationMs`: [`null`,`integer`] – set wheel spin duration time in milliseconds
+- `wheelShowPauseMs`: [`null`,`integer`] – set wheel small button show after pause in milliseconds
+- `wheelMaxHeight`: [`null`,`string`] – set wheel max height number
+- `wheelMaxWidth`: [`null`,`string`] – set wheel max width number
+
+- `winEnlargePauseMs`: [`null`,`integer`] – set wheel win sector enlarge duration time in milliseconds
+- `winEnlargedMinifyPauseMs` [`null`,`integer`] – set enlarged sector minify after pause in milliseconds
+- `winSectorNumber`: [`integer`] – set win sector number to show
+- `winSectorTextReplace`: [`null`,`string`] – set win sector text replace
+
+- `initAfterWin`: [`function`] – set your after win function
+- `initAfterWinPauseMs`: [`null`,`integer`] – set your after win function show after pause in milliseconds
 
 ## Defaults:
 
-- `colorStyle`: `purple`
-- `winRotationDurationMs`: `8000`
-- `winEnlargeDurationMs`: `1000`
-- `winSectors`: `['0%', '30%', 'SPIN IT', '10%', '25%', '40%', '0%', '50%']`
-- `winSectorNumber`: `8`
-- `winSectorTextReplace`: `50% WIN`
+- `colorStyle`: `'purple'`
 - `wheelAutoRotate`: `false`
-- `wheelCenterText`: `SPIN`
-- `wheelMiniText`: `Click to win`
+- `wheelCenterText`: `'SPIN'`
+- `wheelCenterTextFillColor`: `'black'`
+- `wheelCenterTextLeftPosition`: `-11`
+- `wheelCenterTextStyle`: `'font-size:10px'`
+- `wheelMiniText`: `'Click to win'`
 - `wheelPluginPosition`: `false`
-- `wheelShowTimeoutMs`: `null`
+- `wheelSectors`: `['30%', '0%', 'SPIN IT', '50%', '5%', '10%', '33%', '20%', '40%', '0%', '33%', '20%', '50%', '10%', '0%']`
+- `wheelSpinDurationMs`: `7000`
+- `wheelShowPauseMs`: `null`
 - `wheelMaxHeight`: `500`
 - `wheelMaxWidth`: `500`
+
+- `winEnlargePauseMs`: `null`
+- `winEnlargedMinifyPauseMs`: `1500`
+- `winSectorNumber`: `4`
+- `winSectorTextReplace`: `'50% WIN'`
+
 - `initAfterWin`: `() => {}`
+- `initAfterWinPauseMs`: `2500`
