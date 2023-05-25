@@ -9,105 +9,127 @@ A `Wheel Of Fortune` spinner plugin for users traffic arbitrage. Beautiful, inte
 – Install wheel easily in your website or page:
 
 ```html
-<!-- Insert plugin style -->
+<!-- Initialize wheel style -->
 <link rel="stylesheet" href="./src/wheel.plugin.css"/>
 
-<!-- Insert plugin script -->
+<!-- Initialize wheel script -->
 <script src="./src/wheel.plugin.js"></script>
 
-<!-- Insert plugin container -->
+<!-- Initialize wheel container -->
 <div id="wheel-plugin" class="wheel-plugin"></div>
 
-<!-- Insert plugin initialization -->
+<!-- Initialize wheel default options -->
 <script>
-  const wheel = new WheelPlugin();
-  wheel.showBigSpinner()
+  new WheelPlugin();
 </script>
 ```
 
 ## Examples:
 
-– Initialize absolute/centered/right small button wheel:
+– Absolute/centered/right wheel:
 
 ```js
-const wheel = new WheelPlugin({
-  wheelPluginPosition: true
+new WheelPlugin({
+  wheelAbsolutePosition: true,
 });
-wheel.showSmallSpinner()
 ```
 
-– Initialize absolute/centered/right big wheel:
+<br>
+– Absolute/centered/right small wheel:
 
 ```js
-const wheel = new WheelPlugin({
-  wheelPluginPosition: true
+new WheelPlugin({
+  wheelAbsolutePosition: true,
+  wheelSizeBig: false,
 });
-wheel.showBigSpinner()
 ```
 
-– Initialize inside container big wheel:
+<br>
+– Auto rotate on load:
 
 ```js
-const wheel = new WheelPlugin();
-wheel.showBigSpinner()
-```
-
-– Initialize content big wheel with autoRotate:
-
-```js
-const wheel = new WheelPlugin({
-  wheelAutoRotate: true
+new WheelPlugin({
+  wheelAutoRotate: true,
 });
-wheel.showBigSpinner()
 ```
 
-– Initialize your after win function
+<br>
+– Wheel color and spin duration:
 
 ```js
-const wheel = new WheelPlugin({
-  initAfterWin: () => {
-    alert('After Win Function')
-  }
-});
-wheel.showBigSpinner()
-```
-
-– Change theme and other options
-
-```js
-const wheel = new WheelPlugin({
-  colorStyle: 'pink',
+new WheelPlugin({
+  wheelColor: 'pink',
   wheelSpinDurationMs: 1000,
 });
-wheel.showBigSpinner()
 ```
 
-– Localize wheel (arabic)
+<br>
+– Localize wheel (arabic):
 
 ```js
-const wheel = new WheelPlugin({
+new WheelPlugin({
   wheelCenterText: 'تدور',
   wheelCenterTextLeftPosition: -9,
   wheelCenterTextStyle: 'font-size:12px',
+  wheelMiniText: 'انقر للفوز',
 
   wheelSectors: ['30٪', '0٪', 'تدور', '50٪', '5٪', '10٪', '33٪', '20٪', '40٪', '0٪', '33٪', '20٪', '50٪', '10٪', '0٪'],
 
   winSectorTextReplace: 'اربح ٪50',
 });
-wheel.showBigSpinner()
 ```
 
-## Options:
+<br>
+– Initialize your after win function:
 
-- `colorStyle`: [`null`,`string`] – set wheel color: purple, pink, blue, green, orange, turquoise, grey, red, lgbtq
-- `wheelAutoRotate`: [`bull`,`boolean`] – set wheel auto rotate on load
+```js
+new WheelPlugin({
+  initAfterWin: () => {
+    alert('After Win Function')
+  },
+});
+```
+
+## Options default:
+
+```js
+defaultOptions = {
+  wheelAbsolutePosition: false,
+  wheelAutoRotate: false,
+  wheelCenterText: 'SPIN',
+  wheelCenterTextFillColor: 'black',
+  wheelCenterTextLeftPosition: -11,
+  wheelCenterTextStyle: 'font-size:10px',
+  wheelColor: 'red',
+  wheelMiniText: 'Click to win',
+  wheelSectors: ['30%', '0%', 'SPIN IT', '50%', '5%', '10%', '33%', '20%', '40%', '0%', '33%', '20%', '50%', '10%', '0%'],
+  wheelSizeBig: true,
+  wheelSpinDurationMs: 7000,
+  wheelShowPauseMs: null,
+  wheelMaxHeight: 500,
+  wheelMaxWidth: 500,
+  winEnlargePauseMs: null,
+  winEnlargedMinifyPauseMs: 1500,
+  winSectorNumber: 4,
+  winSectorTextReplace: '50% WIN',
+  initAfterWin: () => {
+  },
+  initAfterWinPauseMs: 2500,
+}
+```
+
+## Options description:
+
+- `wheelAbsolutePosition`: [`null`,`boolean`] – set wheel with absolute/right/centered position
+- `wheelAutoRotate`: [`null`,`boolean`] – set wheel auto rotate on load
 - `wheelCenterText`: [`null`,`string`] – set wheel center button text
 - `wheelCenterTextFillColor` [`null`,`string`] – set wheel center button text fill color
 - `wheelCenterTextLeftPosition` [`null`,`integer`] – set wheel center button text position number from left
 - `wheelCenterTextStyle` [`null`,`string`] – set wheel center button text style value
+- `wheelColor`: [`null`,`string`] – set wheel color: purple, pink, blue, green, orange, turquoise, grey, red, lgbtq
 - `wheelMiniText`: [`null`,`string`] – set wheel small button hover text
-- `wheelPluginPosition`: [`null`,`boolean`] – set wheel with absolute/right/centered position
 - `wheelSectors`: [`array`] – set wheel sectors array from 6 to 15
+- `wheelSizeBig`: [`null`,`boolean`] – set wheel size big or else small button
 - `wheelSpinDurationMs`: [`null`,`integer`] – set wheel spin duration time in milliseconds
 - `wheelShowPauseMs`: [`null`,`integer`] – set wheel small button show after pause in milliseconds
 - `wheelMaxHeight`: [`null`,`string`] – set wheel max height number
@@ -120,27 +142,3 @@ wheel.showBigSpinner()
 
 - `initAfterWin`: [`function`] – set your after win function
 - `initAfterWinPauseMs`: [`null`,`integer`] – set your after win function show after pause in milliseconds
-
-## Defaults:
-
-- `colorStyle`: `'purple'`
-- `wheelAutoRotate`: `false`
-- `wheelCenterText`: `'SPIN'`
-- `wheelCenterTextFillColor`: `'black'`
-- `wheelCenterTextLeftPosition`: `-11`
-- `wheelCenterTextStyle`: `'font-size:10px'`
-- `wheelMiniText`: `'Click to win'`
-- `wheelPluginPosition`: `false`
-- `wheelSectors`: `['30%', '0%', 'SPIN IT', '50%', '5%', '10%', '33%', '20%', '40%', '0%', '33%', '20%', '50%', '10%', '0%']`
-- `wheelSpinDurationMs`: `7000`
-- `wheelShowPauseMs`: `null`
-- `wheelMaxHeight`: `500`
-- `wheelMaxWidth`: `500`
-
-- `winEnlargePauseMs`: `null`
-- `winEnlargedMinifyPauseMs`: `1500`
-- `winSectorNumber`: `4`
-- `winSectorTextReplace`: `'50% WIN'`
-
-- `initAfterWin`: `() => {}`
-- `initAfterWinPauseMs`: `2500`

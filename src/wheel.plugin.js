@@ -12,15 +12,16 @@ function WheelPlugin(options) {
   // --------------------------------
 
   let defaultOptions = {
-    colorStyle: 'purple',
+    wheelAbsolutePosition: false,
     wheelAutoRotate: false,
     wheelCenterText: 'SPIN',
     wheelCenterTextFillColor: 'black',
     wheelCenterTextLeftPosition: -11,
     wheelCenterTextStyle: 'font-size:10px',
+    wheelColor: 'red',
     wheelMiniText: 'Click to win',
-    wheelPluginPosition: false,
     wheelSectors: ['30%', '0%', 'SPIN IT', '50%', '5%', '10%', '33%', '20%', '40%', '0%', '33%', '20%', '50%', '10%', '0%'],
+    wheelSizeBig: true,
     wheelSpinDurationMs: 7000,
     wheelShowPauseMs: null,
     wheelMaxHeight: 500,
@@ -41,12 +42,8 @@ function WheelPlugin(options) {
   // --- DEFAULT OPTIONS SETUP ---
   // -----------------------------
 
-  // set wheel color: purple, pink, blue, green, orange, turquoise, grey, red, lgbtq
-  const colorStyleArray = [
-    'purple', 'pink', 'blue', 'green', 'orange', 'turquoise', 'grey', 'red', 'lgbtq'
-  ]
-  const colorStyle = colorStyleArray.includes(options.colorStyle) ?
-    options.colorStyle : defaultOptions.colorStyle
+  // set wheel with absolute/right/centered position
+  const wheelAbsolutePosition = options.wheelAbsolutePosition
   // set wheel auto rotate on load
   const wheelAutoRotate = options.wheelAutoRotate
   // set wheel center button text
@@ -57,16 +54,21 @@ function WheelPlugin(options) {
   const wheelCenterTextLeftPosition = options.wheelCenterTextLeftPosition
   // set wheel center button text style value
   const wheelCenterTextStyle = options.wheelCenterTextStyle
+  // set wheel color: purple, pink, blue, green, orange, turquoise, grey, red, lgbtq
+  const wheelColorArray = ['purple', 'pink', 'blue', 'green',
+    'orange', 'turquoise', 'grey', 'red', 'lgbtq']
+  const wheelColor = wheelColorArray.includes(options.wheelColor) ?
+    options.wheelColor : defaultOptions.wheelColor
   // set wheel small button hover text
   const wheelMiniText = options.wheelMiniText
-  // set wheel with absolute/right/centered position
-  const wheelPluginPosition = options.wheelPluginPosition
   // set wheel sectors array from 6 to 15
   const wheelSectorsCount = options.wheelSectors.length
   const wheelSectors = wheelSectorsCount < 6 && wheelSectorsCount > 15 ?
     defaultOptions.wheelSectors : options.wheelSectors
   //  set wheel spin duration time in milliseconds
   const wheelSpinDurationMs = options.wheelSpinDurationMs
+  // set wheel size big or else small button
+  const wheelSizeBig = options.wheelSizeBig
   // set wheel small button show after pause in milliseconds
   const wheelShowPauseMs = options.wheelShowPauseMs
   // set wheel max height number
@@ -725,8 +727,8 @@ function WheelPlugin(options) {
     }
   }
 
-  function getStaticElementColorGrad(colorStyle) {
-    switch (colorStyle) {
+  function getStaticElementColorGrad(wheelColor) {
+    switch (wheelColor) {
       case 'purple':
         return [purpleColorGrad1, purpleColorGrad2];
       case 'pink':
@@ -748,8 +750,8 @@ function WheelPlugin(options) {
     }
   }
 
-  function getLogoColors(colorStyle) {
-    switch (colorStyle) {
+  function getLogoColors(wheelColor) {
+    switch (wheelColor) {
       case 'purple':
         return [purpleColor1, purpleColor2, purpleColor3, purpleColorGrad1];
       case 'pink':
@@ -773,8 +775,8 @@ function WheelPlugin(options) {
     }
   }
 
-  function getLightenColor(colorStyle, currentColor) {
-    switch (colorStyle) {
+  function getLightenColor(wheelColor, currentColor) {
+    switch (wheelColor) {
       case 'purple':
         return purpleColor1;
       case 'pink':
@@ -798,8 +800,8 @@ function WheelPlugin(options) {
     }
   }
 
-  function getLightsColor(colorStyle) {
-    switch (colorStyle) {
+  function getLightsColor(wheelColor) {
+    switch (wheelColor) {
       case 'purple':
         return ["#ffffff", "#goldGradient"];
       case 'pink':
@@ -823,8 +825,8 @@ function WheelPlugin(options) {
     }
   }
 
-  function getFrameColor(colorStyle) {
-    switch (colorStyle) {
+  function getFrameColor(wheelColor) {
+    switch (wheelColor) {
       case 'purple':
         return ["#goldGradient", "#goldGradient"];
       case 'pink':
@@ -940,12 +942,12 @@ function WheelPlugin(options) {
     );
   }
 
-  function changeStaticElementColorStyle(colorStyle) {
-    if (colorStyle === 'lgbtq') {
+  function changeStaticElementwheelColor(wheelColor) {
+    if (wheelColor === 'lgbtq') {
       bulbTopEl.setAttribute('fill', 'url(#lgbtqGradient)');
       triangleBottomEl.setAttribute('fill', 'url(#lgbtqGradient)');
     } else {
-      const colors = getStaticElementColorGrad(colorStyle);
+      const colors = getStaticElementColorGrad(wheelColor);
       const color1 = colors[0];
       const color2 = colors[1];
 
@@ -962,7 +964,7 @@ function WheelPlugin(options) {
 
     setTimeout(function () {
       updateWheelRotationDeg(0);
-      changeStaticElementColorStyle(colorStyle);
+      changeStaticElementwheelColor(wheelColor);
 
       if (showWheel) {
         setTimeout(function () {
@@ -996,7 +998,7 @@ function WheelPlugin(options) {
     const slice = getSlice(wheelSectorsCount);
     const arcEnter = getArcEnter(r, slice);
     const arcExit = getArcExit(r, slice);
-    const color = getColor(colorStyle, wheelSectorsCount, winSectorNumber);
+    const color = getColor(wheelColor, wheelSectorsCount, winSectorNumber);
     const text = wheelSectors[winSectorNumber];
     const sector = getSector(
       arcEnter,
@@ -1004,14 +1006,14 @@ function WheelPlugin(options) {
       color,
       0,
       winSectorTextReplace !== '' ? winSectorTextReplace : text,
-      colorStyle === 'lgbtq' ? lgbtqTextColor : undefined
+      wheelColor === 'lgbtq' ? lgbtqTextColor : undefined
     );
 
     requestAnimationFrame(function () {
       wheelContainer.classList.add('active');
       chosenSectorEl.innerHTML = sector;
       if ('setProperty' in frameEl.style) {
-        frameEl.style.setProperty('--lighten-color', getLightenColor(colorStyle, color));
+        frameEl.style.setProperty('--lighten-color', getLightenColor(wheelColor, color));
       }
       wheelFromAboveShadowEl.classList.add('active');
     });
@@ -1054,10 +1056,10 @@ function WheelPlugin(options) {
             frameEl.classList.remove('enlarged');
             triangle.classList.remove('hidden');
             arcEl.classList.remove('hidden');
-            wheelPluginPosition ? buttonsContainer.classList.add('active') : true
-            wheelPluginPosition ? buttonsContainer.classList.add('visible') : true
-            wheelPluginPosition ? wheelContainer.classList.remove('active') : true
-            wheelPluginPosition ? wheelContainer.classList.remove('visible') : true
+            wheelAbsolutePosition ? buttonsContainer.classList.add('active') : true
+            wheelAbsolutePosition ? buttonsContainer.classList.add('visible') : true
+            wheelAbsolutePosition ? wheelContainer.classList.remove('active') : true
+            wheelAbsolutePosition ? wheelContainer.classList.remove('visible') : true
           }, winEnlargedMinifyPauseMs)
         }, winEnlargePauseMs)
 
@@ -1070,14 +1072,54 @@ function WheelPlugin(options) {
 
 
   // --------------------------
+  // --- WHEEL BUTTONS SHOW ---
+  // --------------------------
+
+  function showBigSpinner() {
+    updateWheelRotationDeg(0)
+    if (wheelShowPauseMs) {
+      setTimeout(function () {
+        buttonsContainer.classList.remove('visible')
+        buttonsContainer.classList.remove('active')
+        wheelContainer.classList.add('visible')
+        changeWheelToRule()
+      }, wheelShowPauseMs)
+    } else {
+      buttonsContainer.classList.remove('visible')
+      buttonsContainer.classList.remove('active')
+      wheelContainer.classList.add('visible')
+      changeWheelToRule()
+    }
+  }
+
+  function showSmallSpinner() {
+    if (!wheelAbsolutePosition && wheelAutoRotate) {
+      showBigSpinner()
+      return
+    }
+    if (wheelShowPauseMs) {
+      setTimeout(function () {
+        buttonsContainer.classList.add('visible')
+        buttonsContainer.classList.add('active')
+        wheelContainer.classList.remove('visible')
+      }, wheelShowPauseMs)
+    } else {
+      buttonsContainer.classList.add('visible')
+      buttonsContainer.classList.add('active')
+      wheelContainer.classList.remove('visible')
+    }
+  }
+
+
+  // --------------------------
   // --- WHEEL INITIALIZERS ---
   // --------------------------
 
-  function initLogo(colorStyle) {
-    if (colorStyle === 'lgbtq') {
+  function initLogo(wheelColor) {
+    if (wheelColor === 'lgbtq') {
       buttonsSmallWheelUse.setAttribute('xlink:href', '#lgbtqLogo');
     } else {
-      const colors = getLogoColors(colorStyle);
+      const colors = getLogoColors(wheelColor);
       const color1 = colors[0];
       const color3 = colors[2];
       const colorBulb = colors[3];
@@ -1095,7 +1137,7 @@ function WheelPlugin(options) {
     const startingAngle = frameSlugOuterAngle + 0.15;
     const lightRad = (2 * Math.PI - startingAngle * 2) / lightsCount;
     const lightsR = fullR - 14;
-    const lightsColor = getLightsColor(colorStyle)
+    const lightsColor = getLightsColor(wheelColor)
 
     let lightsContent = lightsContainer.innerHTML || '';
 
@@ -1114,11 +1156,11 @@ function WheelPlugin(options) {
     lightsContainer.innerHTML = lightsContent;
   }
 
-  function initFrame(colorStyle) {
+  function initFrame(wheelColor) {
     const slice = getSlice(wheelSectorsCount);
     const arcEnter = getArcEnter(r, slice);
     const arcExit = getArcExit(r, slice);
-    const color = getFrameColor(colorStyle)
+    const color = getFrameColor(wheelColor)
 
     frameEl.innerHTML = ''
       .concat('\n<path d="M 0 0 L ')
@@ -1160,26 +1202,26 @@ function WheelPlugin(options) {
     const arcEnter = getArcEnter(r, slice);
     const arcExit = getArcExit(r, slice);
 
-    // if wheelPluginPosition is false add to wheelPlugin class --not-positioned
-    !wheelPluginPosition ? wheelPlugin.classList.add('--not-positioned') : true
-    !wheelPluginPosition && wheelMaxHeight ? wheelPlugin.style.maxHeight = wheelMaxHeight + 'px' : true
-    !wheelPluginPosition && wheelMaxWidth ? wheelPlugin.style.maxWidth = wheelMaxWidth + 'px' : true
+    // if wheelAbsolutePosition is false add to wheelPlugin class --not-positioned
+    !wheelAbsolutePosition ? wheelPlugin.classList.add('--not-positioned') : true
+    !wheelAbsolutePosition && wheelMaxHeight ? wheelPlugin.style.maxHeight = wheelMaxHeight + 'px' : true
+    !wheelAbsolutePosition && wheelMaxWidth ? wheelPlugin.style.maxWidth = wheelMaxWidth + 'px' : true
 
-    wheelPluginPosition && wheelMiniText ? buttonsSmallWheel.dataset.tooltip = wheelMiniText : true
-    wheelPluginPosition && wheelMaxHeight ? wheelContainer.style.maxHeight = wheelMaxHeight + 'px' : true
-    wheelPluginPosition && wheelMaxWidth ? wheelContainer.style.maxWidth = wheelMaxWidth + 'px' : true
+    wheelAbsolutePosition && wheelMiniText ? buttonsSmallWheel.dataset.tooltip = wheelMiniText : true
+    wheelAbsolutePosition && wheelMaxHeight ? wheelContainer.style.maxHeight = wheelMaxHeight + 'px' : true
+    wheelAbsolutePosition && wheelMaxWidth ? wheelContainer.style.maxWidth = wheelMaxWidth + 'px' : true
 
     // Initialize
-    initFrame(colorStyle)
-    initLights(colorStyle)
-    initLogo(colorStyle);
+    initFrame(wheelColor)
+    initLights(wheelColor)
+    initLogo(wheelColor);
 
     for (let i = 0; i < count; i++) {
       // -2 is to place first sector to the bottom, left of vertical center
       // actual for sectorsCount === 10
       // for fewer sectors we don't do virtual rendering, so it doesn't matter
       const rotate = slice * (i - 2);
-      const color = getColor(colorStyle, count, i);
+      const color = getColor(wheelColor, count, i);
       const text = wheelSectors[i];
 
       content = content.concat(
@@ -1189,7 +1231,7 @@ function WheelPlugin(options) {
           color,
           rotate,
           text,
-          colorStyle === 'lgbtq' ? lgbtqTextColor : undefined
+          wheelColor === 'lgbtq' ? lgbtqTextColor : undefined
         )
       );
     }
@@ -1208,45 +1250,11 @@ function WheelPlugin(options) {
         arcExit,
         ' Z" fill="url(#textGradient)" />\n</mask>'
       );
-  }
 
-
-  // --------------------------
-  // --- WHEEL BUTTONS SHOW ---
-  // --------------------------
-
-  this.showSmallSpinner = function () {
-    if (!wheelPluginPosition && wheelAutoRotate) {
-      this.showBigSpinner()
-      return
-    }
-    if (wheelShowPauseMs) {
-      setTimeout(function () {
-        buttonsContainer.classList.add('visible')
-        buttonsContainer.classList.add('active')
-        wheelContainer.classList.remove('visible')
-      }, wheelShowPauseMs)
+    if (wheelSizeBig === true) {
+      showBigSpinner()
     } else {
-      buttonsContainer.classList.add('visible')
-      buttonsContainer.classList.add('active')
-      wheelContainer.classList.remove('visible')
-    }
-  }
-
-  this.showBigSpinner = function () {
-    updateWheelRotationDeg(0)
-    if (wheelShowPauseMs) {
-      setTimeout(function () {
-        buttonsContainer.classList.remove('visible')
-        buttonsContainer.classList.remove('active')
-        wheelContainer.classList.add('visible')
-        changeWheelToRule()
-      }, wheelShowPauseMs)
-    } else {
-      buttonsContainer.classList.remove('visible')
-      buttonsContainer.classList.remove('active')
-      wheelContainer.classList.add('visible')
-      changeWheelToRule()
+      showSmallSpinner()
     }
   }
 
