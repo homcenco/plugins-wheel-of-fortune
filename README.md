@@ -2,10 +2,11 @@
 
 A `Wheel Of Fortune` spinner plugin for users traffic arbitrage. Beautiful, interactive, clean javascript!
 
-<div style="text-align: center;"><img src="https://raw.githubusercontent.com/homcenco/plugins-wheel-of-fortune/main/docs/wheel-big.png" width="300px" alt="">
-<img src="https://raw.githubusercontent.com/homcenco/plugins-wheel-of-fortune/main/docs/wheel-big.png" width="200px" alt="">
-<img src="https://raw.githubusercontent.com/homcenco/plugins-wheel-of-fortune/main/docs/wheel-absolute-big.png" width="200px" alt="">
-<img src="https://raw.githubusercontent.com/homcenco/plugins-wheel-of-fortune/main/docs/wheel-absolute-small.png" width="200px" alt=""></div>
+<div style="text-align: center;">
+  <img src="https://raw.githubusercontent.com/homcenco/plugins-wheel-of-fortune/main/docs/wheel-big.png" width="200px" alt="">
+  <img src="https://raw.githubusercontent.com/homcenco/plugins-wheel-of-fortune/main/docs/wheel-absolute-big.png" width="200px" alt="">
+  <img src="https://raw.githubusercontent.com/homcenco/plugins-wheel-of-fortune/main/docs/wheel-absolute-small.png" width="200px" alt="">
+</div>
 
 ## Install:
 
