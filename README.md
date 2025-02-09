@@ -8,6 +8,8 @@ A `Wheel Of Fortune` spinner plugin for users traffic arbitrage. Beautiful, inte
   <img src="https://raw.githubusercontent.com/homcenco/plugins-wheel-of-fortune/main/docs/wheel-absolute-small.png" width="200px" alt="">
 </div>
 
+## Try: [homcenco.github.io/wheel-of-fortune/](homcenco.github.io/wheel-of-fortune)
+
 ## Install:
 
 – Install wheel easily in your website or page:
