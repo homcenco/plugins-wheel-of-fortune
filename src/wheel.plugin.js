@@ -97,7 +97,9 @@ function WheelPlugin(options) {
 
   // Fixes errors in some browsers
   if (window.NodeList && !NodeList.prototype.forEach) {
-    NodeList.prototype.forEach = Array.prototype.forEach;
+    NodeList.prototype.forEach = function (callback, thisArg) {
+      Array.prototype.forEach.call(this, callback, thisArg);
+    };
   }
 
 
@@ -155,7 +157,7 @@ function WheelPlugin(options) {
     return currentT;
   }
 
-  function newtonRaphsonIterate(aX, aGuessT, mX1, mX2) {
+  function newtonIterate(aX, aGuessT, mX1, mX2) {
     for (let i = 0; i < NEWTON_ITERATIONS; ++i) {
       const currentSlope = getSlope(aGuessT, mX1, mX2);
       if (currentSlope === 0.0) {
@@ -210,7 +212,7 @@ function WheelPlugin(options) {
 
       const initialSlope = getSlope(guessForT, mX1, mX2);
       if (initialSlope >= NEWTON_MIN_SLOPE) {
-        return newtonRaphsonIterate(aX, guessForT, mX1, mX2);
+        return newtonIterate(aX, guessForT, mX1, mX2);
       } else if (initialSlope === 0.0) {
         return guessForT;
       } else {
@@ -688,12 +690,12 @@ function WheelPlugin(options) {
   function getSector(arcEnter, arcExit, color, rotate, text, textColor) {
     return '<g '
       .concat('class="sector">\n')
-      .concat('<path d="M 0 0 L ', arcEnter, ' A ', r, ' ', r, ' 0 0 0 ', arcExit, ' Z" ')
+      .concat('<path d="M 0 0 L ', arcEnter, ' A ', String(r), ' ', String(r), ' 0 0 0 ', arcExit, ' Z" ')
       .concat('fill="', color, '" ')
       .concat('style="transform: rotate(', rotate, 'rad);" />\n')
-      .concat('<text x="', -r + 18, '" y="0" dy="0.32em" class="sector-text" ')
+      .concat('<text x="', String(-r + 18), '" y="0" dy="0.32em" class="sector-text" ')
       .concat('style="transform: rotate(' + rotate + 'rad);" ')
-      .concat('fill="' + (textColor ? textColor : 'white') + '" mask="url(#gradientMask)">\n')
+      .concat('fill="' + (textColor ? textColor : 'white') + '">\n')
       .concat(text, '</text>\n</g>');
   }
 
@@ -942,7 +944,7 @@ function WheelPlugin(options) {
     );
   }
 
-  function changeStaticElementwheelColor(wheelColor) {
+  function changeStaticElementWheelColor(wheelColor) {
     if (wheelColor === 'lgbtq') {
       bulbTopEl.setAttribute('fill', 'url(#lgbtqGradient)');
       triangleBottomEl.setAttribute('fill', 'url(#lgbtqGradient)');
@@ -964,7 +966,7 @@ function WheelPlugin(options) {
 
     setTimeout(function () {
       updateWheelRotationDeg(0);
-      changeStaticElementwheelColor(wheelColor);
+      changeStaticElementWheelColor(wheelColor);
 
       if (showWheel) {
         setTimeout(function () {
@@ -1148,8 +1150,8 @@ function WheelPlugin(options) {
 
       lightsContent = lightsContent
         .concat('\n<circle cx="')
-        .concat(x, '" cy="')
-        .concat(y, '" r="4" fill="')
+        .concat(String(x), '" cy="')
+        .concat(String(y), '" r="4" fill="')
         .concat(color, '" />');
     }
 
@@ -1165,31 +1167,31 @@ function WheelPlugin(options) {
     frameEl.innerHTML = ''
       .concat('\n<path d="M 0 0 L ')
       .concat(arcEnter, ' A ')
-      .concat(r, ' ')
-      .concat(r, ' 0 0 0 ')
+      .concat(String(r), ' ')
+      .concat(String(r), ' 0 0 0 ')
       .concat(arcExit, ' Z" fill="transparent" class="lighten" />\n')
-      .concat('<path d="M 0 0 L ', arcEnter, ' A ', r, ' ', r, ' 0 0 0 ', arcExit, ' Z" ')
+      .concat('<path d="M 0 0 L ', arcEnter, ' A ', String(r), ' ', String(r), ' 0 0 0 ', arcExit, ' Z" ')
       .concat(
         'fill="transparent" class="frame-stroke" stroke="url(' + color[0] + ')" stroke-width="5" filter="url(#shadow)" />\n'
       )
-      .concat('<path d="M 0 0 L ', arcEnter, ' A ', r, ' ', r, ' 0 0 0 ', arcExit, ' Z" ')
+      .concat('<path d="M 0 0 L ', arcEnter, ' A ', String(r), ' ', String(r), ' 0 0 0 ', arcExit, ' Z" ')
       .concat('fill="url(#spotlight)" stroke="url(#spotlight)" ')
       .concat('class="frame-spotlight" stroke-width="5" />\n');
 
     arcEl.innerHTML = '<path d="M '
-      .concat(-getX(fullR, frameSlugOuterAngle), ' ')
-      .concat(-getY(fullR, frameSlugOuterAngle), ' A ')
-      .concat(fullR, ' ')
-      .concat(fullR, ' 0 0 0 ')
-      .concat(-getX(fullR, frameSlugOuterAngle), ' ')
-      .concat(getY(fullR, frameSlugOuterAngle), ' L ')
-      .concat(-getX(fullR - frameSlugWidth, frameSlugInnerAngle), ' ')
-      .concat(getY(fullR - frameSlugWidth, frameSlugInnerAngle), ' A ')
-      .concat(fullR - frameSlugWidth, ' ')
-      .concat(fullR - frameSlugWidth, ' 0 0 1 ')
-      .concat(-getX(fullR - frameSlugWidth, frameSlugInnerAngle), ' ')
+      .concat(String(-getX(fullR, frameSlugOuterAngle)), ' ')
+      .concat(String(-getY(fullR, frameSlugOuterAngle)), ' A ')
+      .concat(String(fullR), ' ')
+      .concat(String(fullR), ' 0 0 0 ')
+      .concat(String(-getX(fullR, frameSlugOuterAngle)), ' ')
+      .concat(String(getY(fullR, frameSlugOuterAngle)), ' L ')
+      .concat(String(-getX(fullR - frameSlugWidth, frameSlugInnerAngle)), ' ')
+      .concat(String(getY(fullR - frameSlugWidth, frameSlugInnerAngle)), ' A ')
+      .concat(String(fullR - frameSlugWidth), ' ')
+      .concat(String(fullR - frameSlugWidth), ' 0 0 1 ')
+      .concat(String(-getX(fullR - frameSlugWidth, frameSlugInnerAngle)), ' ')
       .concat(
-        -getY(fullR - frameSlugWidth, frameSlugInnerAngle),
+        String(-getY(fullR - frameSlugWidth, frameSlugInnerAngle)),
         ' Z" fill="url(' + color[1] + ')" />\n'
       );
   }
@@ -1243,9 +1245,9 @@ function WheelPlugin(options) {
       .concat(
         arcEnter,
         ' A ',
-        r,
+        String(r),
         ' ',
-        r,
+        String(r),
         ' 0 0 0 ',
         arcExit,
         ' Z" fill="url(#textGradient)" />\n</mask>'
