@@ -78,9 +78,7 @@ new WheelPlugin({
   wheelCenterTextLeftPosition: -9,
   wheelCenterTextStyle: 'font-size:12px',
   wheelMiniText: 'انقر للفوز',
-
-  wheelSectors: ['30٪', '0٪', 'تدور', '50٪', '5٪', '10٪', '33٪', '20٪', '40٪', '0٪', '33٪', '20٪', '50٪', '10٪', '0٪'],
-
+  wheelSectors: ['تدور', '30٪', '0٪', '50٪', '5٪', '10٪', '33٪', '20٪', '40٪', '0٪', '33٪', '20٪', '50٪', '10٪', '0٪'],
   winSectorTextReplace: 'اربح ٪50',
 });
 ```
@@ -108,7 +106,7 @@ defaultOptions = {
   wheelCenterTextStyle: 'font-size:10px',
   wheelColor: 'red',
   wheelMiniText: 'Click to win',
-  wheelSectors: ['30%', '0%', 'SPIN IT', '50%', '5%', '10%', '33%', '20%', '40%', '0%', '33%', '20%', '50%', '10%', '0%'],
+  wheelSectors: ['SPIN IT', '30%', '0%', '50%', '5%', '10%', '33%', '20%', '40%', '0%', '33%', '20%', '50%', '10%', '0%'],
   wheelSizeBig: true,
   wheelSpinDurationMs: 7000,
   wheelShowPauseMs: null,

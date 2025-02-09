@@ -20,7 +20,7 @@ function WheelPlugin(options) {
     wheelCenterTextStyle: 'font-size:10px',
     wheelColor: 'red',
     wheelMiniText: 'Click to win',
-    wheelSectors: ['30%', '0%', 'SPIN IT', '50%', '5%', '10%', '33%', '20%', '40%', '0%', '33%', '20%', '50%', '10%', '0%'],
+    wheelSectors: ['SPIN IT', '30%', '0%', '50%', '5%', '10%', '33%', '20%', '40%', '0%', '33%', '20%', '50%', '10%', '0%'],
     wheelSizeBig: true,
     wheelSpinDurationMs: 7000,
     wheelShowPauseMs: null,
@@ -81,7 +81,7 @@ function WheelPlugin(options) {
   // set wheel sector enlarged minify duration time in milliseconds
   const winEnlargedMinifyPauseMs = options.winEnlargedMinifyPauseMs
   // set win sector number to show
-  const winSectorNumber = options.winSectorNumber - 1
+  const winSectorNumber = options.winSectorNumber + 1
   // set win sector text replace
   const winSectorTextReplace = options.winSectorTextReplace
 
@@ -1219,10 +1219,7 @@ function WheelPlugin(options) {
     initLogo(wheelColor);
 
     for (let i = 0; i < count; i++) {
-      // -2 is to place first sector to the bottom, left of vertical center
-      // actual for sectorsCount === 10
-      // for fewer sectors we don't do virtual rendering, so it doesn't matter
-      const rotate = slice * (i - 2);
+      const rotate = slice * i;
       const color = getColor(wheelColor, count, i);
       const text = wheelSectors[i];
 
